@@ -5,6 +5,8 @@ export const types = {
   NEW_MESSAGE_RECEIVED: 'NEW_MESSAGE_RECEIVED'
 };
 
+
+
 const getType = (typeName) => {
   if(typeName && typeName in types) {
     return typeName;

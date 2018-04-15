@@ -7,7 +7,7 @@ export const initContract = async (abi, address) => {
     if (web3) {
         return web3.eth.contract(abi).at(address);
     }
-        
+
 }
 
 
@@ -17,7 +17,7 @@ const Web3Component = (props, context) => {
 
     return (
         <div>
-            Hello {selectedAccount}
+           {selectedAccount}
         </div>
     );
 }

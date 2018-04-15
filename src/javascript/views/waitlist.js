@@ -14,7 +14,7 @@ import WaitListItem from '../components/waitlist-item';
 import Infobox from '../components/infobox';
 import EmptyLocationMessage from '../components/empty-location-message';
 import { loadWaitlist } from '../stores/waitlistStore';
-import { transformMessages, notifyNewMessage } from '../stores/chatStore';
+import { TransformMessages, notifyNewMessage } from '../stores/chatStore';
 import { loadUserData, isOnboarded } from '../stores/userStore';
 import { initWebSocketStore } from '../stores/webSocketStore';
 import { loadPartnerData } from '../stores/partnerStore';
@@ -85,7 +85,7 @@ class WaitList extends React.Component {
     // TODO handle the incoming messages and update chat bubbles
 
     initWebSocketStore(sessionStorage.getItem('userId'),
-      (event) => notifyNewMessage(transformMessages([event])[0]));
+      (event) => notifyNewMessage(TransformMessages([event])[0]));
 
     await this.getContract();
     // this.getPeople();
@@ -94,7 +94,7 @@ class WaitList extends React.Component {
     //     this.state.contract.getEndorsementsFull('0xe1ea7d39425f99897da0d25224ea58bdfb87981b',
     //     (result, error) => {
     //       console.log(result, error);
-    //     });  
+    //     });
     //   } catch(error) {
     //     console.error(error);
     //   }
@@ -126,7 +126,7 @@ class WaitList extends React.Component {
     // @TODO: store distance in backend
     const roundedValue = Math.floor(value);
     sessionStorage.setItem('distance', roundedValue);
-    const userId = sessionStorage.getItem('userId'); 
+    const userId = sessionStorage.getItem('userId');
     this.props.loadWaitlist(userId);
     this.setState({
       distance: roundedValue

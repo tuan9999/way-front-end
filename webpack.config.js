@@ -13,6 +13,10 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new CopyWebpackPlugin([{ from: 'src/static/' }]),
     new ExtractTextPlugin('style.css')
+    {
+    presets: ["env", "react"],
+    plugins: ["transform-es2015-modules-amd"]
+ }
   ],
   module: {
     rules: [

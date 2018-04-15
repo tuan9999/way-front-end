@@ -13,7 +13,7 @@ import { showModal } from '../stores/profileImageStore';
 import { loadUserData, updateUserData, editUserData, isOnboarded } from '../stores/userStore';
 import './profile.less';
 import { Web3Provider } from 'react-web3';
-import Web3Component, { initContract } from '../components/Web3Component'
+import Web3Component, { initContract, selectedAccount } from '../components/Web3Component'
 import { isLoggedIn } from '../stores/accountStore';
 
 
@@ -31,7 +31,6 @@ class Profile extends React.Component {
     }
 
     const userId = sessionStorage.getItem('userId');
-
     const usernameFromPath = _.get(this.props.match, 'params.username');
     if (!usernameFromPath && (props.username || userId)) {
       this.props.history.push(`/profile/${props.username || userId}`);
@@ -114,7 +113,8 @@ class Profile extends React.Component {
       <div className='profile-button profile-button-logout'>
         <RaisedButton
           onClick={this.onLogout}
-          backgroundColor='#ffd801'
+          buttonStyle={{ border:' 1px solid darkred' }}
+          backgroundColor='white'
           label='logout'
         />
       </div>
@@ -131,6 +131,16 @@ class Profile extends React.Component {
       </div>
     );
 
+    const backing = (
+          <div>
+              <span className='profile-waytcoin-symbol'>
+                <img src='/assets/waytcoin-symbol.png' />
+              </span>
+            {waytcoins}
+          </div>
+        );
+
+
     return (
 
 
@@ -145,24 +155,25 @@ class Profile extends React.Component {
             {imageSelectionModal}
           </Col>
         </Row>
-
-        <div>
-
-          <Web3Provider>
-            <Web3Component />
-          </Web3Provider>
-
-        </div>
-
+        <p> </p>
         <Row>
           <Col sm={12}>
-            <h3>{username}</h3>
-            {balance}
+            <h3><strong>{username}</strong></h3>
+
+            <div className="profile-eth-adress">
+              <h6> Your ETH-Adress: </h6>
+              <Web3Provider>
+                <Web3Component />
+              </Web3Provider>
+            </div>
+            Your balance: {balance}
+            <p></p>
+            Your backing: {backing}
           </Col>
         </Row>
+        <p></p>
         <Row>
           <Col sm={12}>
-
             <TextField
               name="name"
               defaultValue={name}
@@ -177,37 +188,25 @@ class Profile extends React.Component {
               onChange={this.onChanged}
               fullWidth={true}
             />
-            <TextField
-              Address="address"
-              hintText="ETH Address"
-              fullWidth={true}
-            />
-            <TextField
-              Balance="balance"
-              hintText="GEEK Balance"
-              fullWidth={true}
-            />
-            <TextField
-              Balance="backing"
-              hintText="GEEK Backing"
-              fullWidth={true}
-            />
+
+
           </Col>
         </Row>
-        <Row>
-
 
           <div className='profile-button profile-button-save'>
             <RaisedButton
               onClick={this.onSave}
-              backgroundColor='#ffd801'
+              backgroundColor='#00cf70'
               label={this.props.isRegisteredUser ? 'Save' : 'Register'}
             />
           </div>
-
-
-          {logoutButton}
-
+        <p></p>
+        <Row>
+          <Col sm={12}>
+            <div>
+              {logoutButton}
+            </div>
+          </Col>
         </Row>
       </Grid>
     );
@@ -228,5 +227,6 @@ const mapDispatchToProps = dispatch => ({
   updateUserData: (userId, data) => dispatch(updateUserData(userId, data)),
   openModal: () => dispatch(showModal(true))
 });
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

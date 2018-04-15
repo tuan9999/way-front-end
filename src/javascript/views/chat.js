@@ -78,7 +78,7 @@ class Chat extends React.Component {
 
   /**
    * Problem: user should get some feedback on non delivered messages
-   * @param {*} message 
+   * @param {*} message
    */
   async sendMessage(message) {
     const chatPartnerId = _.get(this.props.match, 'params.chatPartnerId');
@@ -87,7 +87,7 @@ class Chat extends React.Component {
       local_id: uuidv4(),
       message,
       sender_id: userId,
-      receiver_id: chatPartnerId
+      receiver_id: chatPartnerId,
     };
     const success = await send(payload);
     if (!success) {
@@ -117,7 +117,7 @@ class Chat extends React.Component {
       photo: partner.photo
     }
     const messages = this.props.chat.data;
-    const networkErrorIndicator = this.state.disableChat ? 
+    const networkErrorIndicator = this.state.disableChat ?
     <LinearProgress style={{position: 'fixed', width: '96%'}} color="#337ab7" mode="indeterminate"/> : null;
 
     return (
