@@ -1,6 +1,10 @@
+import React from 'react'
 import _ from 'lodash';
 import {getAuthHeaders} from '../util/headers';
 import {notify, types as notificationTypes} from '../util/notification';
+import Push from 'push.js';
+import Onboarding, {register} from '../views/registration.js'
+import UserData from '../components/user-data';
 
 const types = {
   LOADING: 'CHAT_LOADING',
@@ -10,21 +14,37 @@ const types = {
 
 const getUsername = (userId) => {
   // TODO: This is highly inefficient and has to be refactored!
-  const usernames = JSON.parse(sessionStorage.getItem('usernames'));
-  return usernames[userId];
+  const usernames = JSON.parse(sessionStorage.getItem('username'));
+  const x = this.props.loadUserData(userId);
+  console.log(x);
+  console.log(usernames)
+  return username[userId];
 };
+
+// pop-up notification function for chat service
+
+
 
 export const notifyNewMessage = (message) => {
-  debugger;
   const currentPath = window.location.hash;
   const userId = sessionStorage.getItem('userId');
-
-    const senderName = message.sender;
-    notify(`New message from ${senderName}`, notificationTypes.NEW_MESSAGE_RECEIVED, message.message);
-
+  const senderId = message.sender;
+  const senderName = senderId.username;
+  if (userId != message.sender ) {
+    Push.create(`${senderName}`, {
+    body: message.message,
+    icon: 'https://static.wixstatic.com/media/b0fd8d_f9da5291c3034064ad161d6fe3d166d3~mv2_d_3000_3000_s_4_2.png/v1/crop/x_0,y_0,w_3000,h_1714/fill/w_92,h_44,al_c,usm_0.66_1.00_0.01/b0fd8d_f9da5291c3034064ad161d6fe3d166d3~mv2_d_3000_3000_s_4_2.png',
+    timeout: 4000,
+    onClick: function () {
+        window.focus();
+        this.close();
+    }
+});
+    // notify(`New message from ${senderName}`, notificationTypes.NEW_MESSAGE_RECEIVED, message.message);
+  }
 };
 
-export const transformMessages = (messages) => {
+export const TransformMessages = (messages) => {
   const transformedMessages = [];
   _.each(messages, entry => {
     transformedMessages.push({
@@ -36,7 +56,16 @@ export const transformMessages = (messages) => {
       delivered: entry.delivered,
       createdAt: entry.created_at
     });
+
+     if (entry.delivered === false) {
+      const notifier = "You have a new message";
+      notifier;
+     return(
+        <p>{notifier}</p>
+      );
+    };
   });
+
   return transformedMessages;
 };
 
@@ -62,7 +91,7 @@ export const loadMessages = (userId, chatPartnerId) => (dispatch) => {
   .then((res) => res.json())
   .then((data) => {
     console.log("receive chat messages: " + JSON.stringify(data));
-    const messages = transformMessages(data);
+    const messages = TransformMessages(data);
     dispatch({
       type: types.LOADED,
       data: messages
@@ -71,7 +100,7 @@ export const loadMessages = (userId, chatPartnerId) => (dispatch) => {
 };
 
 export const addMessagesToChat = (messages, chatPartnerId) => {
-  const transformedMessages = transformMessages(messages);
+  const transformedMessages = TransformMessages(messages);
   _.each(transformedMessages, (message) => {
     notifyNewMessage(message);
   });

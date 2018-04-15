@@ -15,7 +15,7 @@ import { showModal } from '../stores/profileImageStore';
 import ImageSelection from './image-selection-modal';
 import './user-data.less';
 import { Web3Provider } from 'react-web3';
-import Web3Component, { initContract } from '../components/Web3Component'
+import Web3Component, { initContract } from '../components/Web3Component';
 
 
 class UserData extends React.Component {

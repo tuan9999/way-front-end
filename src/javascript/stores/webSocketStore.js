@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import openSocket from 'socket.io-client';
 
 // move to local storage
 const delayedMessages = [];
@@ -10,7 +11,7 @@ let connectionSuccessHandler = null;
 let userId = null;
 let intialized = false;
 
-export const initWebSocketStore = (newUserId, newMessageHandler, 
+export const initWebSocketStore = (newUserId, newMessageHandler,
     newConnectionSuccessHandler, newConnectionCloseHandler) => {
     messageHandler = newMessageHandler || (() => {throw new Error('Message handle required');})();
     connectionCloseHandler = newConnectionCloseHandler || (() => {});
@@ -26,7 +27,7 @@ export const send = async function send(msg) {
     if (!userId && !messageHandler) {
         throw new Error('call initStore first');
     }
-    const result = await managedSend(msg); 
+    const result = await managedSend(msg);
     console.log("send message: " + msg);
     return result;
 }
@@ -52,8 +53,8 @@ const isConnected = function isConnected() {
     return currentConnection && currentConnection.connected;
 }
 
-const newConnection = async function newConnection() {
-    let connection = io(WEBSOCKET_BASE_URL + 
+export const newConnection = async function newConnection() {
+    let connection = io(WEBSOCKET_BASE_URL +
         'messaging?user_id=' + userId + '&token=' + sessionStorage.getItem('token'));
     console.log("New connection setted up");
     addMessagehandler(connection);
@@ -61,7 +62,7 @@ const newConnection = async function newConnection() {
     addConnectionhandler(connection);
     console.log("New connection Finished", connection);
     return connection;
-} 
+  }
 
 const onSuccess = function onSuccess() {
     // indirection so that connectionSuccessHandler can be replaced after connection had been created
@@ -107,5 +108,5 @@ const addClosehandler = function addClosehandler(connection) {
         console.log('chat connection closed ', reason);
         onClose();
     });
-} 
+}
 

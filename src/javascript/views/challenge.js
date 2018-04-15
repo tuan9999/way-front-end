@@ -23,10 +23,11 @@ class Challenge extends React.Component {
     let loadingSpinner = null;
 
     if(url) {
+      
       url = 'http://'+url;
       challengeUrl = (
         <div className='challenge-url'>
-          <a href={url}>{url}</a>
+          <a href='http://localhost:3000/#/register'>{url}</a>
         </div>
       );
       qrcode = <QRCode text={url}/>;

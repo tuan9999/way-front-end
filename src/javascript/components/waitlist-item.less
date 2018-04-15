@@ -16,6 +16,34 @@
   border-radius: 10px;
 }
 
+.waitlist-item-notification {
+  display: flex;
+  font-size: 14px;
+  font-weight: lighter;
+  font-style: italic;
+}
+
+.waitlist-item-notification-dot {
+  margin-top: 5.5px;
+  margin-left: 5px;
+  margin-right: 3px;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: green;
+}
+
+#waitlist-item-chatBubbleLink {
+  height: 50px;
+  width: 50px;
+  margin-left: 80px;
+}
+
+#waitlist-item-chatBubbleLink:hover {
+  margin-top: -5px;
+}
+
+
 .waitlist-item-invisible {
   display: none;
 }
@@ -36,11 +64,12 @@ ul.waitlist-item-actions li {
 
 .waitlist-item-data {
   flex: 1;
-  padding-top: 4px; 
+  padding-top: 4px;
 };
 
 .waitlist-item-data-interests {
   font-size: 14px;
+  margin-left: 5px;
 };
 
 .waitlist-item-data-address {
@@ -48,7 +77,7 @@ ul.waitlist-item-actions li {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 116px;  
+  max-width: 116px;
   margin-bottom: 0px;
 }
 .waitlist-item-data-backing {

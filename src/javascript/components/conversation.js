@@ -20,11 +20,11 @@ export default class Conversation extends React.Component {
       scrollEnd[0].scrollIntoView({ behavior: "smooth" });
     }
   }
-  
+
   componentDidMount() {
     this.scrollToBottom();
   }
-  
+
   componentDidUpdate() {
     this.scrollToBottom();
   }
@@ -51,7 +51,7 @@ export default class Conversation extends React.Component {
           photo = otherPhoto;
         }
       }
-      const undeliveredMsgClass = msg.id ? '' : 'undelivered-msg-style'; 
+      const undeliveredMsgClass = msg.id ? '' : 'undelivered-msg-style';
 
       return (
         <div key={msg.local_id} className='chat-item-wrapper'>
@@ -78,7 +78,7 @@ export default class Conversation extends React.Component {
     return (
       <div className='chat'>
         {bubbles}
-        <div className="chat-scroll-end"/> 
+        <div className="chat-scroll-end"/>
       </div>
     );
   }
